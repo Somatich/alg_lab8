@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from graphviz import Graph
+#from graphviz import Graph
 import string
 
 
@@ -54,30 +54,47 @@ class AdjMatrixGraph:
         :param int u: индекс вершины графа
         :param int v: индекс вершины графа
         """
-        raise NotImplemented("Реализуйте этот метод")
-
+        self.adj[u][v] = 1
+        self.adj[v][u] = 1
+        
     def remove_edge(self, u, v):
         """ Удалить ребро, соединяющее вершины с индексами u и v
 
         :param int u: индекс вершины графа
         :param int v: индекс вершины графа
         """
-        raise NotImplemented("Реализуйте этот метод")
+        self.adj[u][v] = 0
+        self.adj[v][u] = 0
 
     def number_of_edges(self):
         """ Возвращает количество ребер в графе
 
         :rtype: int
         """
-        raise NotImplemented("Реализуйте этот метод")
-
+        count=0
+        for i in self.adj:
+            for j in i:
+                if j==1:
+                    count+=1
+        n = count/2
+        if count/2 != count//2:
+            print('Что-то плохо!')
+        return n
+    
+    
     def neighbors(self, v):
         """ Возвращает список индексов вершин, соседних с данной
 
         :param int v: индекс вершины графа
         :rtype: list of int
         """
-        raise NotImplemented("Реализуйте этот метод")
+        s=[]
+        for i in range(len(self.adj[v])):
+            if self.adj[v][i] == 1:
+                s.append(i)
+        return s
+
+
 
     def draw(self, filename='test.gv'):
         """
@@ -123,7 +140,8 @@ def main():
     print(g.number_of_edges())
     print(g.number_of_vertices())
     print(g.neighbors(0))
-    g.draw()
+    print(g.adj)
+#    g.draw()
 
 
 if __name__ == "__main__":
